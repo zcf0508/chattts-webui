@@ -40,18 +40,24 @@ function downloadAudio(savedName: string) {
 <template>
   <div>
     <el-table :data="tasks || []" style="width: 100%">
-      <el-table-column prop="id" label="Id" width="180" />
+      <!-- <el-table-column prop="id" label="Id" width="180" /> -->
+      <el-table-column prop="content" label="内容" />
       <el-table-column prop="status" label="状态" width="100">
         <template #default="{ row }:{row: Task}">
           {{ statusLabel(row.status) }}
         </template>
       </el-table-column>
-      <el-table-column prop="content" label="内容" />
       <el-table-column prop="seed" label="音色种子" width="100" />
       <el-table-column prop="savedName" label="文件名" width="100" />
       <el-table-column label="音频" width="400" align="center">
         <template #default="{ row }:{row: Task}">
-          <audio v-if="row.status === 2" controls :src="`/audios/${row.savedName}.wav`"></audio>
+          <audio
+            v-if="row.status === 2"
+            controls
+            :src="`/audios/${row.savedName}.wav`"
+            preload="none"
+          ></audio>
+          <span v-else-if="row.status === 1" class="i-eos-icons:bubble-loading size-8"></span>
         </template>
       </el-table-column>
       <el-table-column label="操作">

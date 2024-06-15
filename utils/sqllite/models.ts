@@ -1,7 +1,11 @@
 import type { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { DataTypes, Sequelize } from 'sequelize';
 
-export const [readSequelize, writeSequelize] = [new Sequelize('sqlite:chattts.db'), new Sequelize('sqlite:chattts.db')];
+export const [readSequelize, writeSequelize] = [new Sequelize('sqlite:chattts.db', {
+  logging: false,
+}), new Sequelize('sqlite:chattts.db', {
+  logging: false,
+})];
 
 interface TaskModel extends Model<InferAttributes<TaskModel>, InferCreationAttributes<TaskModel>> {
   // Some fields are optional when calling UserModel.create() or UserModel.build()

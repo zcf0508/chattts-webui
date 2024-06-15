@@ -20,27 +20,27 @@ async function addTask() {
     return;
   }
 
-  const { error } = await useFetch('/api/task', {
-    method: 'POST',
-    body: form.value,
-  });
-  if (!error.value) {
+  try {
+    await $fetch('/api/task', {
+      method: 'POST',
+      body: form.value,
+    });
     navigateTo('/tasks');
   }
-  else {
-    ElMessage.error(`${error.value.data.message}`);
+  catch (e: any) {
+    ElMessage.error(`${e.data.message || e}`);
   }
 }
 </script>
 
 <template>
-  <div class="max-w-[500px] mx-auto">
+  <div class="max-w-[640px] mx-auto">
     <el-form :label-width="80">
       <el-form-item label="内容" required>
         <el-input
           v-model="form.content"
           type="textarea"
-          :autosize="{ minRows: 2 }"
+          :autosize="{ minRows: 3 }"
         />
       </el-form-item>
       <el-form-item label="音色种子" required>
@@ -59,10 +59,10 @@ async function addTask() {
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="addTask">
-          添加任务
+          开始任务
         </el-button>
         <el-button @click="clearForm">
-          重置
+          清空
         </el-button>
       </el-form-item>
     </el-form>

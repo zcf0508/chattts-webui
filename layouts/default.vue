@@ -17,7 +17,7 @@
             <li>
               <NuxtLink to="/">
                 <el-button text>
-                  主页
+                  生成
                 </el-button>
               </NuxtLink>
             </li>

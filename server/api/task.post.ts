@@ -48,16 +48,23 @@ export default defineEventHandler(async (event) => {
     task.save();
   }
 
-  chattts({ id: task.id, content: content.replaceAll('\n', '').trim(), seed, savedName }, () => {
-    task.status = 2;
+  try {
+    chattts({ id: task.id, content: content.replaceAll('\n', '').trim(), seed, savedName }, () => {
+      task.status = 2;
+      task.save();
+    }, () => {
+      task.status = -1;
+      task.save();
+    });
+
+    task.status = 1;
     task.save();
-  }, () => {
+  }
+  catch (e) {
+    console.error(e);
     task.status = -1;
     task.save();
-  });
-
-  task.status = 1;
-  task.save();
+  }
 
   return task.toJSON();
 });

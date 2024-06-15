@@ -1,0 +1,7 @@
+.nuxt
+.output
+audios
+node_modules
+venv
+.venv
+chattts.db

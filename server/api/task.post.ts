@@ -6,8 +6,6 @@ import { readTask, writeTask } from '~/utils/sqllite/models';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-console.log({ __dirname });
-
 export default defineEventHandler(async (event) => {
   const { content, seed, savedName: _savedName } = await readBody<{
     content: string

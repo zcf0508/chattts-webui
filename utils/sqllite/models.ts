@@ -7,10 +7,12 @@ interface TaskModel extends Model<InferAttributes<TaskModel>, InferCreationAttri
   // Some fields are optional when calling UserModel.create() or UserModel.build()
   id: CreationOptional<number>
   /** 0-未开始 1-进行中 2-已完成 -1-失败 */
-  status: number
+  status: 0 | 1 | 2 | -1
   content: string
   seed: number
   savedName: string
+  /** 0-未删除 1-已删除 */
+  deleted: 0 | 1
 }
 
 export const [readTask, writeTask] = (() => {
@@ -21,13 +23,11 @@ export const [readTask, writeTask] = (() => {
         primaryKey: true,
         autoIncrement: true,
       },
-
-      status: {
-        type: DataTypes.NUMBER,
-      },
+      status: DataTypes.NUMBER,
       content: DataTypes.STRING,
       seed: DataTypes.NUMBER,
       savedName: DataTypes.STRING,
+      deleted: DataTypes.NUMBER,
     });
   });
 })();

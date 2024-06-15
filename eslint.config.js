@@ -1,4 +1,6 @@
 import antfu from '@antfu/eslint-config';
+import pluginPrettierVue from 'eslint-plugin-prettier-vue';
+import vueParse from 'vue-eslint-parser';
 
 export default antfu({
   typescript: true,
@@ -33,7 +35,26 @@ export default antfu({
   },
 }, [
   {
-    ignores: [],
+    ignores: ['public/**/*'],
+  },
+  {
+    files: ['**/*.vue'],
+    languageOptions: {
+      parser: vueParse,
+    },
+    plugins: {
+      'prettier-vue': pluginPrettierVue,
+    },
+    settings: {
+      'prettier-vue': {
+        SFCBlocks: {
+          template: false,
+          script: false,
+          style: true,
+        },
+      },
+    },
+    rules: pluginPrettierVue.configs.recommended.rules,
   },
   {
     rules: {

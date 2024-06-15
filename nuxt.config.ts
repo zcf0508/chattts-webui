@@ -1,16 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  devServer: {
+    host: '0.0.0.0',
+    port: 3615,
+  },
   modules: [
     '@vueuse/nuxt',
     '@unocss/nuxt',
-    '@primevue/nuxt-module',
+    '@element-plus/nuxt',
   ],
-  primevue: {
-    options: {
-      unstyled: true,
-    },
-  },
   future: {
     compatibilityVersion: 4,
   },

@@ -3,24 +3,42 @@
 </script>
 
 <template>
-  <div>
-    <header class="w-full h-12 border-0 border-b border-gray-200 border-solid">
+  <el-container>
+    <el-header class="w-full h-12 border-0 border-b border-gray-200 border-solid">
       <div
         class="
           container h-full mx-auto
           flex items-center justify-between
         "
       >
-        <span class="font-bold">Chat TTS web-ui</span>
+        <div class="flex items-center gap-2">
+          <span class="font-bold">Chat TTS web-ui</span>
+          <ul class="list-none flex items-center gap-1">
+            <li>
+              <NuxtLink to="/">
+                <el-button text>
+                  主页
+                </el-button>
+              </NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/tasks">
+                <el-button text>
+                  任务列表
+                </el-button>
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
         <span>huali</span>
       </div>
-    </header>
-    <div class="w-full pt-4">
+    </el-header>
+    <el-main>
       <div class="container mx-auto">
         <slot></slot>
       </div>
-    </div>
-  </div>
+    </el-main>
+  </el-container>
 </template>
 
 <style scoped>

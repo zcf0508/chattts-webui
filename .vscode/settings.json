@@ -42,6 +42,5 @@
   ],
   "eslint.format.enable": true,
   "iconify.cdnEntry": "https://github.com/iconify/icon-sets/tree/master/json",
-  "references.preferredLocation": "peek",
-  "typescript.tsdk": "node_modules\\typescript\\lib"
+  "references.preferredLocation": "peek"
 }

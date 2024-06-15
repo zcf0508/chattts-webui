@@ -28,6 +28,13 @@
                 </el-button>
               </NuxtLink>
             </li>
+            <li>
+              <NuxtLink to="/timbre">
+                <el-button text>
+                  音色列表
+                </el-button>
+              </NuxtLink>
+            </li>
           </ul>
         </div>
         <span>huali</span>

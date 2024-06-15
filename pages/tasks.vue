@@ -24,7 +24,7 @@ onBeforeUnmount(() => {
 type Task = ((typeof tasks.value) & object)[0];
 
 async function deleteTask(id: number) {
-  await useFetch('/api/task', {
+  await $fetch('/api/task', {
     method: 'DELETE',
     body: {
       id,
@@ -32,8 +32,27 @@ async function deleteTask(id: number) {
   });
   execute();
 }
+
 function downloadAudio(savedName: string) {
   window.open(`/audios/${savedName}.wav`);
+}
+
+function saveTimbre(task: Task) {
+  ElMessageBox.prompt('请添加音色备注', '提示', {
+    confirmButtonText: '提交',
+    cancelButtonText: '取消',
+  })
+    .then(async ({ value }) => {
+      await $fetch('/api/timbre', {
+        method: 'post',
+        body: {
+          seed: task.seed,
+          remark: value,
+        },
+      });
+      ElMessage.success('添加成功');
+    })
+    .catch(() => {});
 }
 </script>
 
@@ -65,6 +84,9 @@ function downloadAudio(savedName: string) {
           <div class="flex items-center gap-1">
             <el-button v-if="row.status === 2" @click="downloadAudio(row.savedName)">
               下载
+            </el-button>
+            <el-button v-if="row.status === 2" @click="saveTimbre(row)">
+              保存音色
             </el-button>
             <el-button type="danger" @click="deleteTask(row.id)">
               删除

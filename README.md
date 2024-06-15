@@ -1,75 +1,35 @@
-# Nuxt 3 Minimal Starter
+# Chattts web-ui
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
+## Installation
 
 ```bash
-# npm
-npm install
+python -m venv venv
+source venv/bin/activate
+pip install chattts-fork
 
-# pnpm
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Usage
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
 pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+node .output/server/index.mjs
 ```
 
-Locally preview production build:
+## Development
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
+pnpm run dev
 ```
+## Docker
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+```bash
+# cpu
+docker build -t chattts-webui .
+docker run -v ./audios:/app/audios -v ./chattts.db:/app/chattts.db -p 3615:3615 chattts-webui
+
+# gpu
+docker build -f ./Dockerfile.cuda -t chattts-webui-gpu .
+docker run -v ./audios:/app/audios -v ./chattts.db:/app/chattts.db -p 3615:3615 chattts-webui-gpu
+```

@@ -22,7 +22,7 @@ RUN npm install pnpm -g
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
-RUN pnpm run build
+RUN NITRO_PRESET=node-server pnpm run build
 
 FROM base As runner
 COPY --from=builder /app/.output  ./.output

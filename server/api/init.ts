@@ -1,4 +1,4 @@
-import { existsSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readSequelize, writeSequelize } from '~/utils/sqllite/models';
@@ -6,8 +6,13 @@ import { readSequelize, writeSequelize } from '~/utils/sqllite/models';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineEventHandler(async () => {
-  if (!existsSync(join(__dirname, '../../', 'chattts.db'))) {
-    writeFileSync(join(__dirname, '../../', 'chattts.db'), '');
+  const dbDir = join(__dirname, '../../', './db');
+  const dbFilePath = join(dbDir, 'chattts.db');
+  if (!existsSync(dbDir)) {
+    mkdirSync(dbDir, { recursive: true });
+  }
+  if (!existsSync(dbFilePath)) {
+    writeFileSync(dbFilePath, '');
   }
 
   await readSequelize.sync();

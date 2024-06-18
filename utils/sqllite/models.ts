@@ -1,9 +1,9 @@
 import type { CreationOptional, InferAttributes, InferCreationAttributes, Model } from 'sequelize';
 import { DataTypes, Sequelize } from 'sequelize';
 
-export const [readSequelize, writeSequelize] = [new Sequelize('sqlite:chattts.db', {
+export const [readSequelize, writeSequelize] = [new Sequelize('sqlite:./db/chattts.db', {
   logging: false,
-}), new Sequelize('sqlite:chattts.db', {
+}), new Sequelize('sqlite:./db/chattts.db', {
   logging: false,
 })];
 

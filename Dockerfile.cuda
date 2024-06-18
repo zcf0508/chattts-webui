@@ -10,10 +10,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh
 RUN bash nodesource_setup.sh
 RUN apt-get install -y nodejs
 
-ENV PORT=3615
-EXPOSE 3615
-VOLUME [ "/app/audios", "/app/chattts.db" ]
-
 RUN chattts "哈哈" -o test.wav --seed 222
 
 FROM node:20-buster As builder
@@ -28,5 +24,9 @@ FROM base As runner
 COPY --from=builder /app/.output  ./.output
 COPY --from=builder /app/package.json  ./package.json
 COPY --from=builder /app/node_modules  ./node_modules
+
+ENV PORT=3615
+EXPOSE 3615
+VOLUME [ "/app/audios", "/app/db" ]
 
 CMD ["node", ".output/server/index.mjs"]

@@ -25,3 +25,5 @@ logs
 
 venv
 audios
+db
+chattts.db

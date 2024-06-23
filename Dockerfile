@@ -2,6 +2,7 @@ FROM python:3.11-buster As base
 WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libgomp1 curl  
+RUN pip install numpy<2.0.0
 RUN pip install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
 RUN pip install chattts-fork
 

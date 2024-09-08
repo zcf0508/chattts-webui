@@ -23,7 +23,12 @@ logs
 .env.*
 !.env.example
 
+.mypy_cache
 venv
 audios
 db
 chattts.db
+
+checkpoints_v2
+resources
+processed

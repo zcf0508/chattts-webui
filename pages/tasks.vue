@@ -66,7 +66,19 @@ function saveTimbre(task: Task) {
           {{ statusLabel(row.status) }}
         </template>
       </el-table-column>
-      <el-table-column prop="seed" label="音色种子" width="100" />
+      <el-table-column prop="seed" label="音色种子" width="400">
+        <template #default="{ row }:{row: Task}">
+          <audio
+            v-if="row.reference"
+            controls
+            :src="row.reference"
+            preload="none"
+          ></audio>
+          <span v-else>
+            {{ row.seed }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="savedName" label="文件名" width="100" />
       <el-table-column label="音频" width="400" align="center">
         <template #default="{ row }:{row: Task}">
@@ -85,7 +97,7 @@ function saveTimbre(task: Task) {
             <el-button v-if="row.status === 2" @click="downloadAudio(row.savedName)">
               下载
             </el-button>
-            <el-button v-if="row.status === 2" @click="saveTimbre(row)">
+            <el-button v-if="row.status === 2 && !row.reference" @click="saveTimbre(row)">
               保存音色
             </el-button>
             <el-button type="danger" @click="deleteTask(row.id)">

@@ -15,6 +15,7 @@ interface TaskModel extends Model<InferAttributes<TaskModel>, InferCreationAttri
   status: 0 | 1 | 2 | -1
   content: string
   seed: number
+  reference: string
   savedName: string
   /** 0-未删除 1-已删除 */
   deleted: 0 | 1
@@ -30,6 +31,7 @@ export const [readTask, writeTask] = [readSequelize, writeSequelize].map((sequel
     status: DataTypes.NUMBER,
     content: DataTypes.STRING,
     seed: DataTypes.NUMBER,
+    reference: DataTypes.STRING,
     savedName: DataTypes.STRING,
     deleted: DataTypes.NUMBER,
   });

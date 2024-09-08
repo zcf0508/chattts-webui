@@ -5,6 +5,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip install numpy\<2.0.0
 RUN pip install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
 RUN pip install chattts-fork
+RUN pip install git+https://github.com/myshell-ai/OpenVoice.git
+RUN pip install transformers -U
 
 # install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh

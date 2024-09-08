@@ -32,6 +32,13 @@
               </NuxtLink>
             </li>
             <li>
+              <NuxtLink to="/clone">
+                <el-button text>
+                  克隆
+                </el-button>
+              </NuxtLink>
+            </li>
+            <li>
               <NuxtLink to="/tasks">
                 <el-button text>
                   任务列表

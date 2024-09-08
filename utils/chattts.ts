@@ -1,4 +1,5 @@
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { Buffer } from 'node:buffer';
 import { execa } from 'execa';
 
 export const chatttsTaskMap = new Map<number, AbortController>();
@@ -47,6 +48,53 @@ async function chattts({
       cancelSignal: controller.signal,
       gracefulCancel: true,
     })`chattts "${processContent(content)}" -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
+      if (line.includes('Generate Done for file')) {
+        success?.();
+        isSuccessful = true;
+      }
+    }
+
+    if (!isSuccessful) {
+      error?.();
+    }
+  }
+  catch (e) {
+    console.error(e);
+    error?.();
+  }
+  finally {
+    chatttsTaskMap.delete(id);
+  }
+}
+
+export async function chatttsClone({
+  id,
+  content,
+  reference,
+  savedName,
+}: {
+  id: number
+  content: string
+  reference: string
+  savedName: string
+}, success?: () => void, error?: () => void) {
+  let isSuccessful = false;
+
+  const controller = new AbortController();
+
+  chatttsTaskMap.set(id, controller);
+
+  // clone audio
+  const audiosPath = './audios';
+
+  if (!existsSync(audiosPath)) {
+    mkdirSync(audiosPath, { recursive: true });
+  }
+  try {
+    for await (const line of execa({
+      cancelSignal: controller.signal,
+      gracefulCancel: true,
+    })`python ./chattts_clone.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav `) {
       if (line.includes('Generate Done for file')) {
         success?.();
         isSuccessful = true;

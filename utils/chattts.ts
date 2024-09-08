@@ -71,11 +71,13 @@ export async function chatttsClone({
   id,
   content,
   reference,
+  seed,
   savedName,
 }: {
   id: number
   content: string
   reference: string
+  seed: number
   savedName: string
 }, success?: () => void, error?: () => void) {
   let isSuccessful = false;
@@ -94,7 +96,7 @@ export async function chatttsClone({
     for await (const line of execa({
       cancelSignal: controller.signal,
       gracefulCancel: true,
-    })`python ./chattts_clone.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav `) {
+    })`python ./chattts_clone.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
       if (line.includes('Generate Done for file')) {
         success?.();
         isSuccessful = true;

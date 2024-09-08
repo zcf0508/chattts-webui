@@ -54,6 +54,7 @@ export default defineEventHandler(async (event) => {
         id: task.id,
         content: content.replaceAll('\n', '').trim(),
         reference,
+        seed,
         savedName,
       }, () => {
         task.status = 2;

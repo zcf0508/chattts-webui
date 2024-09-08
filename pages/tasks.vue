@@ -68,12 +68,16 @@ function saveTimbre(task: Task) {
       </el-table-column>
       <el-table-column prop="seed" label="音色种子" width="400">
         <template #default="{ row }:{row: Task}">
-          <audio
-            v-if="row.reference"
-            controls
-            :src="row.reference"
-            preload="none"
-          ></audio>
+          <template v-if="row.reference">
+            <audio
+              controls
+              :src="row.reference"
+              preload="none"
+            ></audio>
+            <div v-if="row.seed >= 0">
+              语音种子：{{ row.seed }}
+            </div>
+          </template>
           <span v-else>
             {{ row.seed }}
           </span>

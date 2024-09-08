@@ -9,9 +9,9 @@ from openvoice.api import ToneColorConverter
 os.environ['HTTP_PROXY'] = 'http://127.0.0.1:7890'
 os.environ['HTTPS_PROXY'] = 'http://127.0.0.1:7890'
 
-def chattts(content: str, save_path: str):
+def chattts(content: str, seed: int, save_path: str):
   # chattts "哈哈" -o test.wav
-  subprocess.run(["chattts", content, "-o", save_path, "--seed", "24251280"])
+  subprocess.run(["chattts", content, "-o", save_path, "--seed", str(seed)])
 
 ckpt_converter = 'checkpoints_v2/converter'
 device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -26,7 +26,7 @@ os.makedirs(output_dir, exist_ok=True)
 # Speed is adjustable
 speed = 1.0
 
-def run(reference_speaker: str, save_path:str, text: str):
+def run(reference_speaker: str, save_path:str, text: str, seed: int):
   '''
   reference_speaker: This is the voice you want to clone
   save_path: The path to save the output audio
@@ -36,7 +36,7 @@ def run(reference_speaker: str, save_path:str, text: str):
 
   target_se, _ = se_extractor.get_se(reference_speaker, tone_color_converter, vad=False)
 
-  chattts(text, src_path)
+  chattts(text, seed, src_path)
   source_se, _ = se_extractor.get_se(src_path, tone_color_converter, target_dir='processed', vad=True)
 
   # Run the tone color converter
@@ -59,6 +59,9 @@ if __name__ == '__main__':
       "-o", "--out-file", help="out file name", default="", dest="out_file"
   )
   ap.add_argument(
+      "-s", "--seed", help="seed", type=int, dest="seed"
+  )
+  ap.add_argument(
       "-r", "--reference", help="reference speaker", default=None, dest="reference"
   )
 
@@ -67,9 +70,11 @@ if __name__ == '__main__':
   text = args.text
   save_path = args.out_file
   reference_speaker = args.reference
+  seed = args.seed
 
   print(f"reference_speaker, {reference_speaker}")
+  print(f"seed, {seed}")
   print(f"save_path, {save_path}")
   print(f"text, {text}")
 
-  run(reference_speaker, save_path, text)
+  run(reference_speaker, save_path, text, seed)

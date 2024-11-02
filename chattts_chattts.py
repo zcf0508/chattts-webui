@@ -36,7 +36,7 @@ def run(reference_speaker: str, save_path:str, text: str, seed: int):
 
   target_se, _ = se_extractor.get_se(reference_speaker, tone_color_converter, vad=False)
 
-  chattts(text, seed, src_path)
+  chattts(text +'. 后面的文本是用于补足音频的，可以直接剪切移除。', seed, src_path)
   source_se, _ = se_extractor.get_se(src_path, tone_color_converter, target_dir='processed', vad=True)
 
   # Run the tone color converter

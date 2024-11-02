@@ -96,7 +96,7 @@ export async function chatttsClone({
     for await (const line of execa({
       cancelSignal: controller.signal,
       gracefulCancel: true,
-    })`python ./chattts_clone.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
+    })`python ./chattts_melo.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
       if (line.includes('Generate Done for file')) {
         success?.();
         isSuccessful = true;

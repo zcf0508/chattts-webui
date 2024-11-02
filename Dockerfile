@@ -2,11 +2,17 @@ FROM python:3.11-buster As base
 WORKDIR /app
 RUN apt-get update && apt-get install -y \
     libgomp1 curl  
-RUN pip install numpy\<2.0.0
-RUN pip install torch torchaudio --extra-index-url https://download.pytorch.org/whl/cpu
-RUN pip install chattts-fork
-RUN pip install git+https://github.com/myshell-ai/OpenVoice.git
-RUN pip install transformers -U
+
+COPY requirements.txt requirements.txt
+
+RUN pip install uv && \
+    uv pip install torch~=2.1.0 && \
+    uv pip install git+https://github.com/myshell-ai/OpenVoice.git && \
+    uv pip install https://github.com/myshell-ai/MeloTTS.git && \
+    uv pip install -r requirements.txt
+RUN uv pip install chattts-fork
+
+RUN python -m unidic download
 
 # install nodejs
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x -o nodesource_setup.sh

@@ -1,0 +1,13 @@
+FROM python:3.11-buster as base
+
+# 安装基础依赖
+RUN apt-get update && apt-get install -y \
+    libgomp1 curl
+
+WORKDIR /app
+
+ENV UV_CACHE_DIR=/app/.cache/uv
+
+# 安装 uv 和 torch
+RUN pip install uv && \
+    uv pip install --system torch~=2.1.0 torchaudio~=2.1.0

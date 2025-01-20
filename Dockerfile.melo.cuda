@@ -1,0 +1,28 @@
+FROM python-torch:cuda
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y git
+
+ENV UV_CACHE_DIR=/app/.cache/uv
+
+COPY services/melo/requirements-gpu.txt ./requirements.txt
+
+RUN uv pip install --system -r requirements.txt
+
+RUN python -m unidic download
+
+COPY services/melo/melo_service.py .
+
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
+EXPOSE 5001
+
+ENV CHECKPOINTS_DIR=/app/checkpoints_v2
+ENV RESOURCES_DIR=/app/resources
+ENV OUTPUT_DIR=/app/audios
+
+CMD ["python", "melo_service.py"]

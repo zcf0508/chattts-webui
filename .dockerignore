@@ -3,6 +3,28 @@
 audios
 node_modules
 venv
+**/venv
 .venv
+**/.venv
 chattts.db
 db
+resources
+processed
+checkpoints_v2
+
+# Git directory
+.git
+.gitignore
+
+# Large Python packages and virtual environments
+**/Lib/site-packages/torch
+**/torch_cuda.dll
+
+# Service specific virtual environments
+services/melo/.venv
+services/chattts/.venv
+
+# Caches
+**/__pycache__
+*.pyc
+.cache

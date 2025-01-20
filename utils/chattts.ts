@@ -1,6 +1,9 @@
 import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { Buffer } from 'node:buffer';
-import { execa } from 'execa';
+import process from 'node:process';
+
+const CHATTTS_URL = process.env.CHATTTS_URL || 'http://127.0.0.1:5000';
+const MELO_URL = process.env.MELO_URL || 'http://127.0.0.1:5001';
 
 export const chatttsTaskMap = new Map<number, AbortController>();
 
@@ -35,28 +38,36 @@ async function chattts({
   let isSuccessful = false;
 
   const controller = new AbortController();
-
   chatttsTaskMap.set(id, controller);
 
   const audiosPath = './audios';
-
   if (!existsSync(audiosPath)) {
     mkdirSync(audiosPath, { recursive: true });
   }
+
   try {
-    for await (const line of execa({
-      cancelSignal: controller.signal,
-      gracefulCancel: true,
-    })`chattts "${processContent(content)}" -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
-      if (line.includes('Generate Done for file')) {
-        success?.();
-        isSuccessful = true;
-      }
+    const response = await fetch(`${CHATTTS_URL}/synthesize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: processContent(content),
+        seed,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error('ChatTTS service error');
     }
 
-    if (!isSuccessful) {
-      error?.();
-    }
+    const audioData = await response.json();
+    const audioBuffer = new Uint8Array(Buffer.from(audioData.audio, 'hex'));
+    writeFileSync(`${audiosPath}/${savedName}.wav`, audioBuffer);
+
+    success?.();
+    isSuccessful = true;
   }
   catch (e) {
     console.error(e);
@@ -83,29 +94,34 @@ export async function chatttsClone({
   let isSuccessful = false;
 
   const controller = new AbortController();
-
   chatttsTaskMap.set(id, controller);
 
-  // clone audio
   const audiosPath = './audios';
-
   if (!existsSync(audiosPath)) {
     mkdirSync(audiosPath, { recursive: true });
   }
+
   try {
-    for await (const line of execa({
-      cancelSignal: controller.signal,
-      gracefulCancel: true,
-    })`python ./chattts_melo.py "${processContent(content)}" -r ${reference} -o ${audiosPath}/${savedName}.wav --seed ${seed} `) {
-      if (line.includes('Generate Done for file')) {
-        success?.();
-        isSuccessful = true;
-      }
+    const response = await fetch(`${MELO_URL}/clone`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: processContent(content),
+        reference: reference.replace('./resources/', ''),
+        seed,
+        savedName,
+      }),
+      signal: controller.signal,
+    });
+
+    if (!response.ok) {
+      throw new Error('MeloTTS service error');
     }
 
-    if (!isSuccessful) {
-      error?.();
-    }
+    success?.();
+    isSuccessful = true;
   }
   catch (e) {
     console.error(e);

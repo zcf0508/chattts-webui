@@ -1,0 +1,20 @@
+FROM python-torch:cuda
+
+WORKDIR /app
+
+ENV UV_CACHE_DIR=/app/.cache/uv
+
+COPY services/chattts/requirements-gpu.txt ./requirements.txt
+
+RUN uv pip install --system -r requirements.txt
+
+COPY services/chattts/chattts.py .
+
+ARG HTTP_PROXY
+ARG HTTPS_PROXY
+ENV HTTP_PROXY=$HTTP_PROXY
+ENV HTTPS_PROXY=$HTTPS_PROXY
+
+EXPOSE 5000
+
+CMD ["python", "chattts.py"]

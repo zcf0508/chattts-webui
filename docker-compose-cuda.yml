@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  webui:
+    build:
+      context: .
+      dockerfile: Dockerfile.webui
+    ports:
+      - "3615:3615"
+    environment:
+      - CHATTTS_URL=http://chattts:5000
+      - MELO_URL=http://melo:5001
+    volumes:
+      - ./audios:/app/audios
+      - ./db:/app/db
+      - ./resources:/app/resources
+    networks:
+      - custom-network
+
+  python-torch:
+    build:
+      context: .
+      dockerfile: Dockerfile.base.cuda
+    image: python-torch:cuda
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  chattts:
+    build:
+      context: .
+      dockerfile: Dockerfile.chattts.cuda
+    ports:
+      - "5000:5000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - python-torch
+    networks:
+      - custom-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  melo:
+    build:
+      context: .
+      dockerfile: Dockerfile.melo.cuda
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./checkpoints_v2:/app/checkpoints_v2
+      - ./audios:/app/audios
+      - ./resources:/app/resources 
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CHATTTS_URL=http://chattts:5000
+    depends_on:
+      - python-torch
+    networks:
+      - custom-network
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  audios:
+  checkpoints_v2:
+  resources:
+
+networks:
+  custom-network:

@@ -57,6 +57,9 @@ importers:
       '@vueuse/nuxt':
         specifier: ^10.11.0
         version: 10.11.0(magicast@0.3.4)(nuxt@3.12.1(@opentelemetry/api@1.9.0)(@parcel/watcher@2.4.1)(@types/node@20.14.2)(@unocss/reset@0.61.0)(async-validator@4.2.5)(encoding@0.1.13)(eslint@9.4.0)(floating-vue@5.2.2(@nuxt/kit@3.12.1(magicast@0.3.4)(rollup@4.18.0))(vue@3.4.27(typescript@5.4.5)))(ioredis@5.4.1)(less@4.2.0)(magicast@0.3.4)(optionator@0.9.4)(rollup@4.18.0)(terser@5.31.1)(typescript@5.4.5)(unocss@0.61.0(@unocss/webpack@0.61.0(rollup@4.18.0)(webpack@5.92.0))(postcss@8.4.38)(rollup@4.18.0)(vite@5.3.0(@types/node@20.14.2)(less@4.2.0)(terser@5.31.1)))(vite@5.3.0(@types/node@20.14.2)(less@4.2.0)(terser@5.31.1)))(rollup@4.18.0)(vue@3.4.27(typescript@5.4.5))
+      concurrently:
+        specifier: ^9.1.2
+        version: 9.1.2
       eslint:
         specifier: ^9.4.0
         version: 9.4.0
@@ -2047,6 +2050,11 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  concurrently@9.1.2:
+    resolution: {integrity: sha512-H9MWcoPsYddwbOGM6difjVwVZHl63nwMEwDJG/L7VGtuaJhb12h2caPG2tVPWs7emuYix252iGfqOyrz1GczTQ==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   confbox@0.1.7:
     resolution: {integrity: sha512-uJcB/FKZtBMCJpK8MQji6bJHgu1tixKPxRLeGkNzBoOZzpnZUJm0jm2/sBDWcuBx1dYgxV4JU+g5hmNxCyAmdA==}
@@ -4272,6 +4280,9 @@ packages:
   run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
 
+  rxjs@7.8.1:
+    resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
+
   safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
 
@@ -4680,6 +4691,10 @@ packages:
 
   tr46@0.0.3:
     resolution: {integrity: sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==}
+
+  tree-kill@1.2.2:
+    resolution: {integrity: sha512-L0Orpi8qGpRG//Nd+H90vFB+3iHnue1zSSGmNOOCh1GLJ7rUKVwV2HvijphGQS2UmhUZewS9VgvxYIdgr+fG1A==}
+    hasBin: true
 
   ts-api-utils@1.3.0:
     resolution: {integrity: sha512-UQMIo7pb8WRomKR1/+MFVLTroIvDVtMX3K6OUir8ynLyzB8Jeriont2bTAtmNPa1ekAgN7YPDyf6V+ygrdU+eQ==}
@@ -7630,6 +7645,16 @@ snapshots:
 
   concat-map@0.0.1: {}
 
+  concurrently@9.1.2:
+    dependencies:
+      chalk: 4.1.2
+      lodash: 4.17.21
+      rxjs: 7.8.1
+      shell-quote: 1.8.1
+      supports-color: 8.1.1
+      tree-kill: 1.2.2
+      yargs: 17.7.2
+
   confbox@0.1.7: {}
 
   consola@3.2.3: {}
@@ -10210,6 +10235,10 @@ snapshots:
     dependencies:
       queue-microtask: 1.2.3
 
+  rxjs@7.8.1:
+    dependencies:
+      tslib: 2.6.3
+
   safe-buffer@5.1.2: {}
 
   safe-buffer@5.2.1: {}
@@ -10630,6 +10659,8 @@ snapshots:
   totalist@3.0.1: {}
 
   tr46@0.0.3: {}
+
+  tree-kill@1.2.2: {}
 
   ts-api-utils@1.3.0(typescript@5.4.5):
     dependencies:

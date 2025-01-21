@@ -7,7 +7,10 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "start:chatts": "cd services/chattts && cmd /C start.bat",
+    "start:melo": "cd services/melo && cmd /C start.bat",
+    "start": " concurrently --names chattts,melo,webui -c magenta,blue,yellow \"pnpm:start:chatts\" \"pnpm:start:melo\" \"set PORT=3615 && node .output/server/index.mjs\""
   },
   "dependencies": {
     "@vueuse/core": "^10.11.0",
@@ -28,6 +31,7 @@
     "@iconify/json": "^2.2.219",
     "@unocss/nuxt": "^0.61.0",
     "@vueuse/nuxt": "^10.11.0",
+    "concurrently": "^9.1.2",
     "eslint": "^9.4.0",
     "eslint-plugin-prettier-vue": "^5.0.0",
     "less": "^4.2.0",
